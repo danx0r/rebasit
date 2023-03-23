@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/env python
 """
  Clever little hack to squash all commits that are repeats of previous commit msg into one commit
 
@@ -24,8 +24,8 @@ arg = ""
 if len(sys.argv) > 1:
     arg = sys.argv[1]
     if arg == "--help":
-        print "rebasit <commit>"
-        print "#rebases squashing repeat comments"
+        print("rebasit <commit>")
+        print("#rebases squashing repeat comments")
         exit()
 
 if "git-rebase-todo" in arg:
@@ -48,10 +48,10 @@ if "git-rebase-todo" in arg:
                 o.append("f %s %s" % (commit, message))
             else:
                 o.append("pick %s %s" % (commit, message))
-            print o[-1]
+            print(o[-1])
             oldmsg = message
     f.close()
-    print "\nrebasit_edit done"
+    print("\nrebasit_edit done")
     
     f = open(arg, 'w')
     for r in o:
@@ -61,7 +61,7 @@ else:
     #invoke git rebase with me as editor
     if arg == "":
         cmd = "git log > __rebasit_temp__"
-        print cmd
+        print(cmd)
         os.system(cmd)
         f = open("__rebasit_temp__")
         lines = f.readlines()
@@ -79,12 +79,12 @@ else:
                     arg = commit
                     break
                 oldmsg = msg
-        print "calculated rebase commit:", commit
+        print("calculated rebase commit:", commit)
         arg = commit
         cmd = "rm __rebasit_temp__"
-        print cmd
+        print(cmd)
         os.system(cmd)
     os.environ['GIT_EDITOR'] = PYBASE + "/rebasit"
     cmd = "git rebase -i " + arg
-    print cmd
+    print(cmd)
     os.system(cmd)
